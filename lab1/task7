@@ -1,0 +1,14 @@
+#!/bin/bash
+arr=($(grep -E -h -s -o -r --text "[A-Za-z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+" | uniq | sort))
+count=1
+for el in ${arr[@]}
+do
+outp+="$el"
+if [[ "$count" -eq "${#arr[@]}" ]]
+then
+break
+fi
+let "count = count + 1"
+outp+=" , "
+done
+echo "$outp" > emails.lst

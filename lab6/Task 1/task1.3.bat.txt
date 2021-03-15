@@ -1,0 +1,5 @@
+net start > nets.txt
+net stop Dnscache
+net start > nets2.txt
+net start Dnscache
+FC /L C:\Lab6\nets.txt C:\Lab6\nets2.txt > difference.txt

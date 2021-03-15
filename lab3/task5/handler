@@ -1,0 +1,30 @@
+#!/bin/bash
+
+result=1
+action="+"
+(tail -f pipe) |
+while true
+do
+read line
+case $line in
+"+")
+  action="+"
+  ;;
+"*")
+  action="*"
+  ;;
+"QUIT")
+  exit
+  ;;
+*)
+  if [[ "$action" = "+" ]] 
+then
+result=$((result + line))
+echo "$result"
+else
+result=$((result * line))
+echo "$result"
+fi
+;;
+esac
+done

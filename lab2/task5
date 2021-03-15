@@ -1,0 +1,31 @@
+#!/bin/bash
+readarray arr < task4.txt
+line=0
+counter=0
+sum=0
+left_line=0
+prev=$(echo "$arr[0]" | awk -F= '{print $3}' | awk -F: '{print $1}') 
+for text in ${arr[@]}
+do
+cur=$(echo "$text" | awk -F= '{print $3}' | awk -F: '{print $1}')
+if [[ "$prev" -ne "$cur" ]]
+then
+sum=$(echo "$sum/$counter" | bc -l)
+sed "$line a Average_Sleeping_Of=$prev is $sum" -i task4.txt
+((line++))
+sum=0
+counter=0
+prev=$cur
+fi
+num=$(echo "$text" | awk -F= '{print $4}')
+sum=$(echo "$sum+$num" | bc -l)
+((line++))
+((counter++))
+((left_line++))
+if [[ "$left_line" -eq "${#arr[@]}" ]]
+then
+sum=$(echo "$sum/$counter" | bc -l)
+sed "$line a Average_Sleeping_Of=$prev is $sum" -i task4.txt
+let "line=$line+1"
+fi
+done

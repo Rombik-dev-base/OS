@@ -1,0 +1,7 @@
+#!/bin/bash
+echo "$$" >> proc_ppid.txt
+elem=5
+counter=3
+while true; do
+elem=$((elem * counter))
+done

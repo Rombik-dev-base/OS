@@ -1,0 +1,26 @@
+#!/bin/bash
+num="-1"
+if ! [ -n "$1" ]
+then
+echo "Invalid param"
+exit
+fi
+if ! [ -d $HOME/.trash ]
+then
+mkdir $HOME/.trash
+fi
+if ! [ -f $(pwd)/$1 ]
+then
+echo "no such file"
+exit
+fi
+if [ -s $HOME/.trash.log ]
+then
+num=$(cat $HOME/.trash.log | awk '{print $1}' | sort | tail -n 1)
+((num++))
+else
+num="0"
+fi
+ln $1 $HOME/.trash/$num
+echo "$num $(pwd)/$1" >> $HOME/.trash.log
+rm $1

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+./$HOME/lab5/experiment1/mem.bash &
+./$HOME/lab5/experiment1/mem2.bash &
+rm top2.log
+touch top2.log
+while true ; do
+top -b | head -n 10 >> top2.log
+sleep 1
+done

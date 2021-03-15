@@ -1,0 +1,2 @@
+#!/bin/bash
+ps -A a | grep "sbin" | awk ' {print $1} '

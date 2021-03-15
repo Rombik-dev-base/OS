@@ -1,0 +1,30 @@
+#!/bin/bash
+echo $$ > .pid
+
+action="+"
+result=1
+usr1()
+{
+action="+"
+}
+usr2()
+{
+action="*"
+}
+trap 'usr1' USR1
+trap 'usr2' USR2
+while true
+do
+sleep 1
+case $action in
+"+")
+result=$((result + 2))
+;;
+"*")
+result=$((result * 2))
+;;
+*)
+;;
+esac
+echo "$result"
+done

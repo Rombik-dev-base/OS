@@ -1,0 +1,2 @@
+driverquery/v > drivers.txt
+sort dirvers.txt /Output dirvers.txt

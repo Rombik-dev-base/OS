@@ -1,0 +1,2 @@
+#!/bin/bash
+man bash | sed 's/[^[:alpha:]]\+/\n/g' | sed /^$/d | tr "[:upper:]" "[:lower:]" | sort | uniq -c | sort -nr | sed 3q

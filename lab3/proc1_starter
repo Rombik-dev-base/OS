@@ -1,0 +1,12 @@
+#!/bin/bash
+
+./proc1 &
+pr1=$!
+./proc1 &
+pr2=$!
+./proc1 &
+pr3=$!
+
+sleep 10
+
+renice -n 10 $pr1

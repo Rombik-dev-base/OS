@@ -1,0 +1,3 @@
+mkdir C:\TEST
+copy . C:\TEST
+cd C:\TEST
