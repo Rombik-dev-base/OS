@@ -1,0 +1,46 @@
+#!/bin/bash
+if ! [ -n "$1" ]
+then
+echo "Invalid param"
+exit
+fi
+Line="NONE"
+cat $HOME/.trash.log | grep "$1$" | awk ' {print $2} '  > $HOME/.trash/buffer
+readarray arr < $HOME/.trash/buffer
+rm $HOME/.trash/buffer
+for i in ${arr[@]}
+do
+echo -e "$i\nDo you want untrash file? Y or N"
+read info
+if [ "$info" == "Y" ]
+then
+Line="$i"
+break
+fi
+done
+if [ "$Line"!="NONE" ]
+then
+unpacking=$(cat $HOME/.trash.log | grep "$Line" | awk ' {print $1} ')
+checkdir=$(echo "$Line" | sed "s%\/$1%%")
+if [ -d "$checkdir" ]
+then
+if ! [ -e "$Line" ]
+then
+ln $HOME/.trash/$unpacking $Line
+else
+echo "File is already created with that name. rename file pls"
+read rename
+ln $HOME/.trash/$unpacking $checkdir/$rename
+fi
+else
+date=$(date + "%F")
+echo "No such dir file restored with name $date-$restore-$1"
+ln $HOME/.trash/$unpacking $HOME/$date-$restore-$1
+fi
+str=$(cat $HOME/.trash.log | grep "$Line")
+sed -i "s%$str%%" $HOME/.trash.log 
+sed -i '/^$/d' $HOME/.trash.log
+rm $HOME/.trash/$unpacking
+fi
+
+
