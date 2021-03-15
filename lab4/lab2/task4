@@ -1,0 +1,19 @@
+#!/bin/bash
+echo -n > task4.txt
+ps -A | awk ' {print $1} ' > pid.txt
+readarray arr < pid.txt
+result=0
+for index in ${arr[@]}
+do
+if [[ -e /proc/$index/status ]]
+then
+ppid=$(cat /proc/$index/status | grep -i PPID | awk ' {print $2}')
+runtime=$(cat /proc/$index/sched | grep -i SUM_EXEC_RUNTIME | awk ' {print $3}')
+switched=$(cat /proc/$index/sched | grep -i NR_SWITCHES | awk ' {print $3} ')
+result=$(echo "scale=2; $runtime/$switched" | bc -l)
+echo "ProcessID=$index:Parent_ProcessID=$ppid:Average_Running_Time=$result" >> task4.txt
+fi
+done
+text=$(cat task4.txt | sort -t= -nk3)
+echo "$text" > task4.txt
+rm pid.txt

@@ -1,0 +1,9 @@
+#!/bin/bash
+
+string=""
+while [[ $string != "q" ]] 
+do
+finalstring+="$string"
+read string
+done
+echo "$finalstring"

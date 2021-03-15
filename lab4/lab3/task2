@@ -1,0 +1,2 @@
+#!/bin/bash
+echo bash $HOME/lab3/task1 | at now +2 minute

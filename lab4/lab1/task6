@@ -1,0 +1,3 @@
+#!/bin/bash
+tail -n +16 /var/log/anaconda/X.log | tr -s " " | grep -e '(WW)' -e '(II)' | sed -e 's/(II)/Information:/' -e 's/(WW)/Warning:/' | sort -k3 -r > full.log
+

@@ -1,0 +1,2 @@
+#!/bin/bash
+ps -A a u | awk '$1="user" {print $2 ":" $11}'| tail -n +2

@@ -1,0 +1,37 @@
+#!/bin/bash
+echo "$$"
+rm 1.txt
+rm 2.txt
+rm ans.txt
+for ppid in $(ps -A | awk '{print $1}')
+do
+if [[ -r /proc/$ppid/io ]]
+then
+before=$(cat /proc/$ppid/io | grep -s -i READ_BYTES | awk -F: '{print $2}')
+echo "$ppid:$before" >> 1.txt
+fi
+done
+echo "sleeping for 25"
+sleep 60
+for ppid in $(ps -A | awk '{print $1}')
+do
+if [[ -r /proc/$ppid/io ]]
+then
+before=$(cat /proc/$ppid/io | grep -s -i READ_BYTES | awk -F: '{print $2}')
+echo "$ppid:$before" >> 2.txt
+fi
+done
+while read line
+do
+text=$(echo "$line" | awk -F: '{print $1}')
+if grep -i -s "$text:" 2.txt >> trash.txt
+then
+rm trash.txt
+prev=$(echo "$line" | awk -F: '{print $2}' | sed s/' '//g)
+aft=$(cat 2.txt | grep $text: | awk -F: '{print $2}' | sed s/' '//g )
+result=$(echo "$aft - $prev" | bc -l)
+echo "$text:$result" >> ans.txt
+fi
+done < 1.txt
+ans=$(sort -t: -nk2 ans.txt | tail -n 3)
+echo "$ans" > ans.txt

@@ -1,0 +1,21 @@
+#!/bin/bash
+echo -e "Command list \n  -nano == Nano \n -links == links \n -exit == exit menu"
+while read command
+do
+case $command in
+-nano)
+  nano
+;;
+-links)
+ links
+;;
+-exit)
+ echo "Exit success"
+ exit
+;;
+*)
+ echo "No such command"
+;;
+esac
+echo -e "Command list -nano == Nano \n -links == links \n -exit == exit menu"
+done

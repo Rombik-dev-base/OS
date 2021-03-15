@@ -1,0 +1,11 @@
+#!/bin/bash
+curResult=$1
+if (( "$curResult" <= "$2" ))
+then
+curResult=$2
+fi
+if (( "$curResult" <= "$3" )) 
+then
+curResult=$3
+fi
+echo "$curResult" 

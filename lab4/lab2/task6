@@ -1,0 +1,18 @@
+#!/bin/bash
+arr=$(ps -A | awk ' {print $1} ')
+maxmem=0
+for index in ${arr[@]}
+do
+if [[ -e /proc/$index/status ]]
+then
+mem=$(cat /proc/$index/status | grep -i VMSIZE | awk ' {print $2}')
+if [[ "$maxmem" -lt "$mem" ]]
+then
+maxmem="$mem"
+fi
+fi
+done
+echo "$maxmem"
+top -bn 1 > top.txt
+cat top.txt | tail -n +8 | awk '{print $5}' | sort -n | tail -n 1
+rm top.txt

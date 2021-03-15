@@ -1,0 +1,11 @@
+#!/bin/bash
+
+.$HOME/lab5/mem.bash &
+
+rm top.log
+touch top.log
+le true
+do
+top -b | head -n 10 >> top.log
+sleep 1
+done
